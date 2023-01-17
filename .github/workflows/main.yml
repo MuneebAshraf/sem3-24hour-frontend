@@ -1,32 +1,20 @@
-name: Deploy to cod3r.dk
-
+name: Deploy React App
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout the repository
-      uses: actions/checkout@v2
-    - name: Set up SSH
-      run: ssh-keyscan -t rsa cod3r.dk >> ~/.ssh/known_hosts
-    - name: Build the project
-      run: npm run build
-    - name: Copy the build files to cod3r.dk
-      run: |
-        ssh -i ${{ secrets.SSH_PRIVATE_KEY }} ${{ secrets.REMOTE_USER }}@cod3r.dk '
-          set -e
-          rm -rf /var/www/html/${{ secrets.PROJECT_NAME }}
-          mkdir /var/www/html/${{ secrets.PROJECT_NAME }}
-          exit
-        '
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-    - name: Copy the build files to the new folder
-      run: |
-        scp -r -i ${{ secrets.SSH_PRIVATE_KEY }} -o StrictHostKeyChecking=no build/* ${{ secrets.REMOTE_USER }}@cod3r.dk:/var/www/html/${{ secrets.PROJECT_NAME }}
-      env:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Build React App
+        run: npm run build
+      - name: Remove old build files
+        run: ssh root@cod3r.dk 'rm -rf /var/www/html/24hour'
+      - name: Copy build files to server
+        run: scp -o StrictHostKeyChecking=no -r build root@cod3r.dk:/var/www/html/24hour
+        env:
+          SSH_USERNAME: root
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
