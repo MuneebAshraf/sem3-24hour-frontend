@@ -1,0 +1,22 @@
+name: Deploy React App
+on:
+  push:
+    branches:
+      - main
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm ci
+      - name: Build React App
+        run: npm run build
+      - name: Remove old build files
+        run: ssh root@cod3r.dk 'rm -rf /var/www/html/24hour'
+      - name: Copy build files to server
+        run: scp -r build root@cod3r.dk:/var/www/html/24hour
+        env:
+          SSH_USERNAME: root
+          SSH_PASSWORD: ${{ secrets.SSH_PASSWORD }}
