@@ -72,7 +72,7 @@ function useAuth() {
 		password: string,
 	) => {
 		try {
-			await API.login(username, password);
+			await API.WalkieDoggie.login(username, password);
 
 			context.dispatch({ type: "login" });
 			return Promise.resolve();

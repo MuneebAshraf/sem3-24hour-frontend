@@ -35,7 +35,7 @@ function TheLoginForm({ performLoginAction }: TheLoginFormProps) {
 				onSubmit={performLogin}
 				className="flex flex-col justify-center p-2 items-center gap-3"
 			>
-				<InputField onChange={onChange} label="Email" type="email" name="email" required />
+				<InputField onChange={onChange} label="Username" type="text" name="username" required />
 				<InputField
 					onChange={onChange}
 					type="password"

@@ -17,23 +17,17 @@ function Header({ setErrorMsg }: HeaderProps) {
 				<Logo />
 				<NavItem route={"/"} icon={"home"} label={"Home"} end />
 				<NavItem
-					permissionRequired={"OWNER"}
-					route={"/owner/viewWalkers"}
-					icon={"fa-solid fa-location-pin"}
-					label={"Walkers"}
-				/>
-				<NavItem
-					permissionRequired={"WALKER"}
-					route={"/business/viewRequests"}
-					icon={"fa-solid fa-location-pin"}
-					label={"View Requests"}
-				/>
-				<NavItem
 					permissionRequired={"ADMIN"}
-					route={"/admin/dogs"}
-					icon={"map-location-dot"}
-					label={"add Dog"}
+					route={"/admin/users"}
+					icon={"fa-solid fa-users"}
+					label={"Users"}
 				/>
+				{/*<NavItem*/}
+				{/*	permissionRequired={"OWNER"}*/}
+				{/*	route={"/owner/"}*/}
+				{/*	icon={"fa-solid fa-location-pin"}*/}
+				{/*	label={"Walkers"}*/}
+				{/*/>*/}
 
 				<div className="ml-auto mr-2 flex items-center gap-2 justify-center">
 					{!state.loggedIn ? (
@@ -43,12 +37,6 @@ function Header({ setErrorMsg }: HeaderProps) {
 								className="px-4 py-2 text-primary-500 rounded-lg hover:scale-105 active:scale-95"
 							>
 								Sign In
-							</Link>
-							<Link
-								to={"/signup"}
-								className="text-white px-4 py-2 bg-primary-500 rounded-lg hover:scale-105 active:scale-95"
-							>
-								Sign Up
 							</Link>
 						</>
 					) : (

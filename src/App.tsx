@@ -7,6 +7,8 @@ import SignIn from "./pages/SignIn";
 import User from "./pages/User";
 import {useAuth} from "./hooks/AuthContext";
 import MissingPage from "./pages/404page";
+import DogPage from "./pages/DogPage";
+import UsersListPage from "./pages/UsersListPage";
 
 function App() {
     const {autoLogin, state: authState} = useAuth();
@@ -17,7 +19,7 @@ function App() {
     }, []);
 
     return (
-        <div className="w-screen h-screen bg-gray-100">
+        <div className="w-screen h-screen bg-gray-300">
             <Routes>
                 <Route path="/" element={<Header/>}>
                     <Route
@@ -40,14 +42,12 @@ function App() {
                         path="/admin"
                         element={<GuardedRoute permissionRequired={"ADMIN"}/>}
                     >
-                        {/*<Route index element={<ViewFoocleSpotPage/>}/>*/}
-                        {/*<Route path={"/dogs"} element={<ViewAllDogsPage/>}/>*/}
-                        {/*<Route path={"/dogs/:id"} element={<ViewDogPage/>}/>*/}
-
-
+                        <Route index element={<Home/>}/>
+                    <Route path={"/admin/users"} element={<UsersListPage/>}/>
+                    <Route path={"/admin/dog/:id"} element={<DogPage/>}/>
                     </Route>
 
-                    {/*<Route path="/signin" element={<SignIn/>}/>*/}
+                    <Route path="/signin" element={<SignIn/>}/>
 
                     <Route path="*" element={<MissingPage/>}/>
                 </Route>

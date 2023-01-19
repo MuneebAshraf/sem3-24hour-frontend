@@ -1,5 +1,6 @@
 import { BASE_API_URL } from "../../settings";
 import { getToken, makeOptions, loggedIn } from "./util.api";
+import apiFacade from "./apiFacade";
 
 async function validateToken() {
   const token = getToken();
@@ -15,6 +16,7 @@ function logout() {
 };
 
 const API = {
+  WalkieDoggie: apiFacade,
   helpers: {
     validateToken,
     logout,

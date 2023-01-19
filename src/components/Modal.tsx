@@ -1,21 +1,34 @@
-import React, { ReactNode } from "react";
+import {faX} from "@fortawesome/free-solid-svg-icons";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-interface ModalType {
-	children?: ReactNode;
-	isOpen: boolean;
-	toggle: () => void;
+interface ModalProps {
+    children: JSX.Element | JSX.Element[];
+    show: boolean;
+    toggle: () => void;
 }
 
-export default function Modal(props: ModalType) {
-	return (
-		<>
-			{props.isOpen && (
-				<div className="z-50 w-screen h-screen absolute top-0 left-0 bg-black/50 flex justify-center items-center" onClick={props.toggle}>
-					<div onClick={(e) => e.stopPropagation()} className="block bg-white w-1/3 h-1/3">
-						{props.children}
-					</div>
-				</div>
-			)}
-		</>
-	);
+function Modal({children, show, toggle}: ModalProps) {
+    return (
+        <div
+            className={`${
+                show ? "display" : "hidden"
+            } fixed w-screen  h-screen top-0 left-0 flex justify-center items-center`}
+            onClick={toggle}
+        >
+            <div
+                onClick={(e) => e.stopPropagation()}
+                className="relative z-10 w-[clamp(100px,_100%_,40vw)] h-[clamp(100px,_100%_,60vh)] p-10 bg-secondary-500 backdrop-filter backdrop-blur-lg bg-opacity-60 rounded-xl shadow-lg grid justify-center "
+            >
+                {children}
+                <button
+                    onClick={toggle}
+                    className="absolute -top-5 -right-5 bg-white hover:scale-105 active:scale-95 transition-all backdrop-filter backdrop-blur-lg bg-opacity-20 rounded-xl shadow-lg w-10 h-10 "
+                >
+                    <FontAwesomeIcon icon={faX} color={"white"}/>
+                </button>
+            </div>
+        </div>
+    );
 }
+
+export default Modal;

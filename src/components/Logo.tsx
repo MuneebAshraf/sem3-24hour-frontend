@@ -5,7 +5,7 @@ function Logo() {
         <div className="flex justify-center items-center px-4">
             <Link to={"/"}>
                 <h1 className="font-bold font-header text-white bg-primary-500 px-3 py-1 rounded-br-xl rounded-tl-xl text-lg">
-                    Foocle
+                    WalkieDoggie
                 </h1>
             </Link>
         </div>

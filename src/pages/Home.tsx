@@ -1,50 +1,64 @@
-import { Button } from "@/components";
-import Lottie from "lottie-react";
-// import animation from "../assets/location.json";
-import { Link } from "react-router-dom";
-// import heroImage from "../assets/images/hero.jpg";
+import {Button} from "../components";
+import useModal from "../hooks/useModal";
+import {useAuth} from "../hooks/AuthContext";
+import {useEffect, useState} from "react";
+import API from "../api";
+import Dog from "../types/entities/Dog";
+import Modal from "../components/Modal";
+import AddDog from "../components/AddDog";
+import {Link} from "react-router-dom";
 
 function Home() {
+	const {state} = useAuth();
+	const [show, toggle] = useModal();
+	const [dogs, setDogs] = useState<Dog[]>(  []);
+	//usestate for the dogs from the api
+
+	function fetchDoggos() {
+		API.WalkieDoggie.getAllDogs().then((dogs: Dog[]) => {
+			setDogs(dogs);
+		})
+		console.log(dogs);
+	}
+
+	useEffect(() => {
+		fetchDoggos()
+		console.log(dogs);
+	}, []);
+
 	return (
-		<>
-			<div className="bg-white h-full flex flex-col">
-				<div className="flex flex-col-reverse md:flex-row flex-[0.9] justify-center items-center gap-10 md:gap-32">
-					<div className="flex flex-col gap-10 w-1/2 md:w-64">
-						<div className="flex flex-col gap-4">
-							<h1 className="font-header font-bold text-4xl animated fadeInLeft">
-								Help save the world by being a part of{" "}
-								<span className="text-primary-500">WalkieDoggie</span>
-							</h1>
-							<p className="font-sub-header animated fadeInLeft delay-1s">
-								Stop food going to waste, and help give the ones in need.
-							</p>
+		<main className={"flex justify-center items-center w-full h-full bg-white"}>
+			<div className="flex flex-col w-3/4 h-3/4 h-screen bg-primary-50 rounded-lg relative">
+				<Button onClick={toggle} className={"max-w-[10rem] m-4 absolute top-0 right-0"}> Add Dog </Button>
+				<div className={"flex gap-5 p-5"}>
+					{dogs?.map(dog => (
+						<div key={dog.id} className="flex justify-center">
+							<div className="rounded-lg shadow-lg bg-white max-w-sm">
+								<a href="#!" data-mdb-ripple="true" data-mdb-ripple-color="light">
+									<img className="rounded-t-lg"
+										 src={dog.image} alt=""/>
+								</a>
+								<div className="p-6">
+									<h5 className="text-gray-900 text-xl font-medium mb-2">{dog.name}</h5>
+									<p className="text-gray-700 text-base mb-1">
+										{dog.breed}
+									</p>
+									<p className="text-gray-700 text-base mb-1">
+										{dog.gender}
+									</p>
+									<Link to={"/admin/dog/"+dog.id} className=" inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
+										View Dog
+									</Link>
+								</div>
+							</div>
 						</div>
-						<Link to={"/signup/business"}>
-							<Button className="max-h-10 animated fadeInLeft delay-2s">Get Started</Button>
-						</Link>
-					</div>
-					<div className="max-w-xs md:max-w-md: animated fadeIn">
-						{/*<img src={heroImage} />*/}
-					</div>
+					))}
 				</div>
 			</div>
-			<div className="flex justify-center items-center flex-col gap-10 bg-off-white h-full relative">
-				<h1 className="w-fit m-5 mt-28 text-6xl antialiased font-bold animated fadeInDown ">
-					Why?
-				</h1>
-				<div className="text-center flex gap-6 m-6 animated delay-2s fadeIn">
-					<p className="flex justify-center items-center bg-white max-w-[20rem] p-6 antialiased font-bold rounded-lg text-2xl animated delay-2s fadeInUp">
-						Save the Food, prolong the Cycle of life - join Foocle
-					</p>
-					<p className="flex justify-center items-center bg-white max-w-[20rem] p-6 antialiased font-bold rounded-lg text-2xl animated delay-3s fadeInUp">
-						At Foocle we aim to reduce food wasted by offering exquisite food
-					</p>
-					<p className="flex justify-center items-center bg-white max-w-[20rem] p-6 antialiased font-bold rounded-lg text-2xl animated delay-4s fadeInUp">
-						Get free food - Save $$ on your bills - help saving the planet{" "}
-					</p>
-				</div>
-			</div>
-		</>
+			<Modal show={show} toggle={toggle}>
+				<AddDog dogs={dogs} setDogs={setDogs} afterSubmit={toggle}/>
+			</Modal>
+		</main>
 	);
 }
 
