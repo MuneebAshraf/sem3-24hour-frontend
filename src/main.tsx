@@ -7,7 +7,7 @@ import {AuthProvider} from "./hooks/AuthContext";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
-        <BrowserRouter basename="WalkieDoggie">
+        <BrowserRouter basename="24exam">
             <AuthProvider>
                 <App/>
             </AuthProvider>

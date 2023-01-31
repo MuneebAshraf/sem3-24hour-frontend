@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_NAME="WalkieTalkie"
+PROJECT_NAME="24exam"
 DROPLET_URL="cod3r.dk"
 # echo -n "please enter the project name as it appears on the server in /var/www/"
 # read -r
